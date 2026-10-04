@@ -21,4 +21,10 @@ public class Reservation {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private StatutREservation statut ;
+    @ManyToOne
+    private Vehicule vehicule;
+    @ManyToOne
+    private Client client;
+    @OneToOne(mappedBy = "reservation")        // inverse side: field name in Contrat
+    private Contrat contrat;
 }

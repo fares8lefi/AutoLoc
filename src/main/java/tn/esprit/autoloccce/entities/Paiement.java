@@ -24,4 +24,7 @@ public class Paiement {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private ModePaiement ModePaiement ;
+    @ManyToOne
+    @JoinColumn(nullable = false)       // a payment always belongs to a contract
+    private Contrat contrat;
 }
