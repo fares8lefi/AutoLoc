@@ -1,0 +1,255 @@
+# AutoLoc API
+
+AutoLoc is a car rental management REST API built with **Spring Boot**, **Maven**, **Spring Data JPA** and **MySQL**.
+It models the core domain of a rental agency: agencies, employees, vehicles, equipment, maintenance, clients, reservations, contracts and payments.
+
+Academic project, ESPRIT, UP ASI (Architecture des Systèmes d'Information), Atelier 1 and 2.
+
+## Tech stack
+
+| Technology | Version / usage |
+|---|---|
+| Java | 17 |
+| Spring Boot | 4.1.1 |
+| Spring Data JPA / Hibernate | Hibernate 7.4.5 |
+| Spring Web MVC | REST layer (Tomcat, port 9090) |
+| MySQL | MySQL Connector/J 9.7.0 |
+| Lombok | `@Getter`, `@Setter`, `@NoArgsConstructor`, `@AllArgsConstructor` |
+| Build tool | Maven |
+
+## Class diagram
+
+![AutoLoc class diagram](docs/class-diagram.png)
+
+The same model in Mermaid (rendered automatically on GitHub):
+
+```mermaid
+classDiagram
+    direction TB
+
+    class Agence {
+        -Long idAgence
+        -String nom
+        -String ville
+        -String adresse
+        -String telephone
+    }
+    class Employe {
+        -Long idEmploye
+        -String nom
+        -String prenom
+        -RoleEmploye role
+    }
+    class Vehicule {
+        -Long idVehicule
+        -String immatriculation
+        -String marque
+        -String modele
+        -CategorieVehicule categorie
+        -BigDecimal tarifJournalier
+        -StatutVehicule statut
+    }
+    class Maintenance {
+        -Long idMaintenance
+        -LocalDate dateDebut
+        -LocalDate dateFin
+        -String description
+    }
+    class Equipement {
+        -Long idEquipement
+        -String libelle
+    }
+    class Client {
+        -Long idClient
+        -String nom
+        -String prenom
+        -String email
+        -String telephone
+        -String numPermis
+        -LocalDate dateInscription
+    }
+    class Reservation {
+        -Long idReservation
+        -LocalDate dateDebut
+        -LocalDate dateFin
+        -StatutReservation statut
+    }
+    class Contrat {
+        -Long idContrat
+        -LocalDate dateSignature
+        -BigDecimal montantTotal
+        -boolean valide
+    }
+    class Paiement {
+        -Long idPaiement
+        -BigDecimal montant
+        -LocalDate datePaiement
+        -ModePaiement modePaiement
+    }
+
+    class RoleEmploye {
+        <<enumeration>>
+        AGENT
+        MANAGER
+    }
+    class CategorieVehicule {
+        <<enumeration>>
+        CITADINE
+        BERLINE
+        SUV
+        UTILITAIRE
+    }
+    class StatutVehicule {
+        <<enumeration>>
+        DISPONIBLE
+        LOUE
+        MAINTENANCE
+    }
+    class StatutReservation {
+        <<enumeration>>
+        EN_ATTENTE
+        CONFIRMEE
+        ANNULEE
+        TERMINEE
+    }
+    class ModePaiement {
+        <<enumeration>>
+        CARTE
+        ESPECES
+        VIREMENT
+    }
+
+    Agence "1" -- "*" Employe
+    Agence "1" -- "*" Vehicule
+    Maintenance "*" --> "1" Vehicule
+    Vehicule "*" -- "*" Equipement
+    Vehicule "1" -- "*" Reservation
+    Client "1" -- "*" Reservation
+    Reservation "1" -- "1" Contrat
+    Contrat "1" *-- "*" Paiement
+
+    Employe ..> RoleEmploye
+    Vehicule ..> CategorieVehicule
+    Vehicule ..> StatutVehicule
+    Reservation ..> StatutReservation
+    Paiement ..> ModePaiement
+```
+
+## Associations
+
+| Association | Type | Direction | Owner side (FK) | Result in database |
+|---|---|---|---|---|
+| `Agence` → `Employe` | OneToMany / ManyToOne | Bidirectional | `Employe.agence` | `employe.agence_id_agence` |
+| `Agence` → `Vehicule` | OneToMany / ManyToOne | Bidirectional | `Vehicule.agence` | `vehicule.agence_id_agence` |
+| `Maintenance` → `Vehicule` | ManyToOne | Unidirectional | `Maintenance.vehicule` | `maintenance.vehicule_id_vehicule` |
+| `Vehicule` ↔ `Equipement` | ManyToMany | Bidirectional | `Vehicule.equipements` | join table `vehicule_equipements` |
+| `Vehicule` → `Reservation` | OneToMany / ManyToOne | Bidirectional | `Reservation.vehicule` | `reservation.vehicule_id_vehicule` |
+| `Client` → `Reservation` | OneToMany / ManyToOne | Bidirectional | `Reservation.client` | `reservation.client_id_client` |
+| `Reservation` ↔ `Contrat` | OneToOne | Bidirectional | `Contrat.reservation` | `contrat.reservation_id_reservation` (unique) |
+| `Contrat` → `Paiement` | OneToMany / ManyToOne (composition) | Bidirectional | `Paiement.contrat` | `paiement.contrat_id_contrat` (not null) |
+
+### Mapping rules used
+
+- The **owner side** holds the foreign key and has no `mappedBy`.
+- The **inverse side** declares `mappedBy = "<field name in the owner entity>"`.
+- Collections are `Set<...>` initialized with `new HashSet<>()`.
+- `cascade = CascadeType.ALL` and `orphanRemoval = true` are used only for the **composition** `Contrat` → `Paiement`. A payment cannot exist without its contract.
+- Entities use `@Getter` / `@Setter` instead of `@Data` to avoid infinite loops in `toString()`, `equals()` and `hashCode()` on bidirectional relations.
+- Enumerations are stored as text with `@Enumerated(EnumType.STRING)`.
+
+## Project structure
+
+```
+AutoLocCCE
+├── src
+│   ├── main
+│   │   ├── java/tn/esprit/autoloccce
+│   │   │   ├── AutoLocCceApplication.java
+│   │   │   └── entities
+│   │   │       ├── Agence.java
+│   │   │       ├── Employe.java
+│   │   │       ├── Vehicule.java
+│   │   │       ├── Maintenance.java
+│   │   │       ├── Equipement.java
+│   │   │       ├── Client.java
+│   │   │       ├── Reservation.java
+│   │   │       ├── Contrat.java
+│   │   │       ├── Paiement.java
+│   │   │       └── (enums) RoleEmploye, CategorieVehicule,
+│   │   │                   StatutVehicule, StatutReservation, ModePaiement
+│   │   └── resources
+│   │       └── application.properties
+│   └── test
+├── docs
+│   └── class-diagram.png
+└── pom.xml
+```
+
+## Getting started
+
+### Prerequisites
+
+- JDK 17 or higher
+- Maven (or the Maven wrapper)
+- A running MySQL server
+- IntelliJ IDEA with the Lombok plugin and **annotation processing enabled**
+
+### Configuration
+
+Edit `src/main/resources/application.properties`:
+
+```properties
+server.port=9090
+
+spring.datasource.url=jdbc:mysql://localhost:3306/ProjetSpring?createDatabaseIfNotExist=true
+spring.datasource.username=root
+spring.datasource.password=${DB_PASSWORD}
+
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.format_sql=true
+```
+
+The database is created automatically thanks to `createDatabaseIfNotExist=true`.
+Avoid committing your real password: set it with an environment variable (`DB_PASSWORD`).
+
+> `ddl-auto=update` is suitable for development only. Do not use it as is in production.
+
+### Run
+
+```bash
+git clone <repository-url>
+cd AutoLocCCE
+mvn spring-boot:run
+```
+
+Or run `AutoLocCceApplication` from IntelliJ IDEA.
+
+On a successful start, the console shows:
+
+```
+Started AutoLocCceApplication in ... seconds
+```
+
+and the Hibernate DDL statements (`create table ...` / `alter table ... add constraint ...`).
+
+### Check the schema
+
+Connect to the `ProjetSpring` database with MySQL Workbench or DBeaver and verify that:
+
+- the 9 entity tables exist,
+- the join table `vehicule_equipements` exists,
+- each foreign key listed in the **Associations** table is present.
+
+## Roadmap
+
+- [x] Spring Boot project, MySQL connection, first JPA entities
+- [x]  associations, cascade and fetch strategies
+- [ ] Spring Data JPA repositories
+- [ ] Service layer (business logic)
+- [ ] REST controllers
+- [ ] DTOs and validation
+
+## Author
+
+LAFI eaFares  Cloud & Cybersecurity Engineer
