@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import tn.esprit.autoloccce.entities.enumerations.CategorieVehicule;
 import tn.esprit.autoloccce.entities.enumerations.RoleEmploye;
 import tn.esprit.autoloccce.entities.enumerations.statutVehicule;
 
@@ -22,7 +23,10 @@ public class Vehicule {
     private String immatriculation ;
     private String marque ;
     private String modele ;
-    private String categorie ;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private CategorieVehicule categorie ;
     private BigDecimal tarifJournalier;
 
     @Enumerated(EnumType.STRING)
