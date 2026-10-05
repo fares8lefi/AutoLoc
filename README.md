@@ -21,120 +21,6 @@ Academic project, ESPRIT, UP ASI (Architecture des Systèmes d'Information), Ate
 
 ![AutoLoc class diagram](docs/class-diagram.png)
 
-The same model in Mermaid (rendered automatically on GitHub):
-
-```mermaid
-classDiagram
-    direction TB
-
-    class Agence {
-        -Long idAgence
-        -String nom
-        -String ville
-        -String adresse
-        -String telephone
-    }
-    class Employe {
-        -Long idEmploye
-        -String nom
-        -String prenom
-        -RoleEmploye role
-    }
-    class Vehicule {
-        -Long idVehicule
-        -String immatriculation
-        -String marque
-        -String modele
-        -CategorieVehicule categorie
-        -BigDecimal tarifJournalier
-        -StatutVehicule statut
-    }
-    class Maintenance {
-        -Long idMaintenance
-        -LocalDate dateDebut
-        -LocalDate dateFin
-        -String description
-    }
-    class Equipement {
-        -Long idEquipement
-        -String libelle
-    }
-    class Client {
-        -Long idClient
-        -String nom
-        -String prenom
-        -String email
-        -String telephone
-        -String numPermis
-        -LocalDate dateInscription
-    }
-    class Reservation {
-        -Long idReservation
-        -LocalDate dateDebut
-        -LocalDate dateFin
-        -StatutReservation statut
-    }
-    class Contrat {
-        -Long idContrat
-        -LocalDate dateSignature
-        -BigDecimal montantTotal
-        -boolean valide
-    }
-    class Paiement {
-        -Long idPaiement
-        -BigDecimal montant
-        -LocalDate datePaiement
-        -ModePaiement modePaiement
-    }
-
-    class RoleEmploye {
-        <<enumeration>>
-        AGENT
-        MANAGER
-    }
-    class CategorieVehicule {
-        <<enumeration>>
-        CITADINE
-        BERLINE
-        SUV
-        UTILITAIRE
-    }
-    class StatutVehicule {
-        <<enumeration>>
-        DISPONIBLE
-        LOUE
-        MAINTENANCE
-    }
-    class StatutReservation {
-        <<enumeration>>
-        EN_ATTENTE
-        CONFIRMEE
-        ANNULEE
-        TERMINEE
-    }
-    class ModePaiement {
-        <<enumeration>>
-        CARTE
-        ESPECES
-        VIREMENT
-    }
-
-    Agence "1" -- "*" Employe
-    Agence "1" -- "*" Vehicule
-    Maintenance "*" --> "1" Vehicule
-    Vehicule "*" -- "*" Equipement
-    Vehicule "1" -- "*" Reservation
-    Client "1" -- "*" Reservation
-    Reservation "1" -- "1" Contrat
-    Contrat "1" *-- "*" Paiement
-
-    Employe ..> RoleEmploye
-    Vehicule ..> CategorieVehicule
-    Vehicule ..> StatutVehicule
-    Reservation ..> StatutReservation
-    Paiement ..> ModePaiement
-```
-
 ## Associations
 
 | Association | Type | Direction | Owner side (FK) | Result in database |
@@ -244,7 +130,7 @@ Connect to the `ProjetSpring` database with MySQL Workbench or DBeaver and verif
 ## Roadmap
 
 - [x] Spring Boot project, MySQL connection, first JPA entities
-- [x]  associations, cascade and fetch strategies
+- [x] JPA associations, cascade and fetch strategies
 - [ ] Spring Data JPA repositories
 - [ ] Service layer (business logic)
 - [ ] REST controllers
@@ -252,4 +138,4 @@ Connect to the `ProjetSpring` database with MySQL Workbench or DBeaver and verif
 
 ## Author
 
-lafi fares  Cloud & Cybersecurity Engineer
+Lafi Fares, Cloud & Cybersecurity Engineer
