@@ -10,7 +10,9 @@ import tn.esprit.autoloccce.entities.enumerations.RoleEmploye;
 import tn.esprit.autoloccce.entities.enumerations.statutVehicule;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -37,7 +39,7 @@ public class Vehicule {
     @ManyToOne
     private Agence agence;
     @ManyToMany
-    private Set<Equipement> equipements = new HashSet<>() ;
+    private List<Equipement> equipements = new ArrayList<>() ;
 
     @OneToMany(mappedBy = "vehicule")
     private Set<Reservation> reservations = new HashSet<>();

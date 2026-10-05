@@ -6,7 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -19,5 +21,5 @@ public class Equipement {
     private long idEquipement ;
     private String libelle;
     @ManyToMany(mappedBy = "equipements")
-    private Set<Vehicule> vehicules = new HashSet<>();
+    private List<Vehicule> vehicules = new ArrayList<>();
 }

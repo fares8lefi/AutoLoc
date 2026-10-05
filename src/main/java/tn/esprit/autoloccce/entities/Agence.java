@@ -6,7 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -23,5 +25,5 @@ public class Agence {
     @OneToMany(mappedBy = "agence", cascade = CascadeType.ALL)
     private Set<Employe> employes = new HashSet<>();
     @OneToMany(mappedBy = "agence", cascade = CascadeType.ALL)
-    private Set<Employe> vechuile = new HashSet<>();
+    private List<Employe> vechuile = new ArrayList<>();
 }
