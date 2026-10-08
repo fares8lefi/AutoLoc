@@ -1,5 +1,6 @@
 package tn.esprit.autoloccce.Services;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import tn.esprit.autoloccce.Repositories.ClientRepository;
 import tn.esprit.autoloccce.entities.Client;
@@ -7,6 +8,7 @@ import tn.esprit.autoloccce.entities.Client;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class ClinetService implements IClientService {
     ClientRepository repository;
     @Override

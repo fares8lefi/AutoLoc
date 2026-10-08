@@ -1,5 +1,6 @@
 package tn.esprit.autoloccce.Services;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import tn.esprit.autoloccce.Repositories.AgenceRepository;
 import tn.esprit.autoloccce.entities.Agence;
@@ -7,6 +8,7 @@ import tn.esprit.autoloccce.entities.Agence;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class AgenceService implements IAgenceServices{
      AgenceRepository repository;
     @Override
