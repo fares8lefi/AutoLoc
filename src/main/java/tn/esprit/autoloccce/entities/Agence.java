@@ -13,17 +13,18 @@ import java.util.Set;
 
 @Entity
 @Getter @Setter @AllArgsConstructor @NoArgsConstructor
-
 public class Agence {
     @Id
-    @GeneratedValue(strategy =  GenerationType.IDENTITY)
-    private long idAgence;
-    private String nom ;
-    private String ville ;
-    private String adresse ;
-    private String telephone ;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long idAgence;
+    private String nom;
+    private String ville;
+    private String adresse;
+    private String telephone;
+
     @OneToMany(mappedBy = "agence", cascade = CascadeType.ALL)
     private Set<Employe> employes = new HashSet<>();
+
     @OneToMany(mappedBy = "agence", cascade = CascadeType.ALL)
-    private List<Employe> vechuile = new ArrayList<>();
+    private List<Vehicule> vehicules = new ArrayList<>();
 }
