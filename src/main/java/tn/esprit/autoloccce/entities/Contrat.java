@@ -20,7 +20,7 @@ import java.util.Set;
 public class Contrat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long idContrat ;
+    private Long idContrat ;
     private LocalDate dateSignature ;
     private BigDecimal montantTotla ;
     private boolean valide ;

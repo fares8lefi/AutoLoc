@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import tn.esprit.autoloccce.Repositories.ContratRepository;
 import tn.esprit.autoloccce.entities.Contrat;
 
+import java.time.LocalDate;
 import java.util.List;
 @AllArgsConstructor
 @Service
@@ -12,6 +13,7 @@ public class ContratService implements IContratService {
     ContratRepository repository ;
     @Override
     public Contrat addContrat(Contrat contrat) {
+        contrat.setDateSignature(LocalDate.now());
         return repository.save(contrat);
     }
 
@@ -32,5 +34,10 @@ public class ContratService implements IContratService {
     @Override
     public void deleteContrat(Long id) {
         repository.deleteById(id);
+    }
+
+    @Override
+    public Contrat getContratById(Long ID) {
+        return repository.findById(ID).orElse(null);
     }
 }

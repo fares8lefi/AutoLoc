@@ -8,5 +8,6 @@ public interface IContratService {
     Contrat addContrat(Contrat contrat);
     List<Contrat> GetAllContrat();
     Contrat UpdateContrat(Contrat contrat ,Long id) ;
-    void deleteContrat(Long id) ;
+    void deleteContrat(Long id);
+    Contrat getContratById(Long ID);
 }
