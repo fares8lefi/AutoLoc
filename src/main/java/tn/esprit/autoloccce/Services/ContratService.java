@@ -23,6 +23,7 @@ public class ContratService implements IContratService {
     @Override
     public Contrat UpdateContrat(Contrat contrat, Long id) {
         if(repository.existsById(id)){
+            contrat.setIdContrat(id);
             return repository.save(contrat);
         }
         return null;
