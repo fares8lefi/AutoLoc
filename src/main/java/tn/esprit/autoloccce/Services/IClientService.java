@@ -9,4 +9,5 @@ public interface IClientService {
     List<Client> GetAllClient();
     Client UpdateClient(Client client ,Long id) ;
     void deleteClient(Long id) ;
+    Client GetClientByID(Long id);
 }
