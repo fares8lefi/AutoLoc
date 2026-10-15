@@ -23,7 +23,7 @@ import java.util.Set;
 public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY )
-    private long idClient ;
+    private Long idClient ;
     private String nom;
     private String prenom ;
     private String  email;
