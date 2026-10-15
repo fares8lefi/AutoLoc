@@ -23,12 +23,20 @@ public class AgenceService implements IAgenceServices{
 
     @Override
     public Agence UpdateAgence(Agence agence, Long id) {
-        if(repository.existsById(id)) return repository.save(agence);
-         return null ;
+        if(repository.existsById(id)) {
+            agence.setIdAgence(id);
+            return repository.save(agence);
+        }
+        return null ;
     }
 
     @Override
     public void deleteAgence(Long id) {
         repository.deleteById(id);
+    }
+
+    @Override
+    public Agence getAgenceByID(Long id) {
+        return  repository.findById(id).orElse(null);
     }
 }
