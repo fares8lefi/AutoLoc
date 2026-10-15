@@ -9,5 +9,6 @@ public interface IAgenceServices {
     List<Agence> GetAllAgance();
     Agence UpdateAgence(Agence agence ,Long id) ;
     void deleteAgence(Long id) ;
+    Agence getAgenceByID(Long id) ;
 
 }
