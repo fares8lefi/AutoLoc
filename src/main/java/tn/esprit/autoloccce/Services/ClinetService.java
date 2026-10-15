@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import tn.esprit.autoloccce.Repositories.ClientRepository;
 import tn.esprit.autoloccce.entities.Client;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -13,6 +14,7 @@ public class ClinetService implements IClientService {
     ClientRepository repository;
     @Override
     public Client addClient(Client client) {
+        client.setDateInscription(LocalDate.now());
         return repository.save(client);
     }
 
@@ -24,6 +26,7 @@ public class ClinetService implements IClientService {
     @Override
     public Client UpdateClient(Client client, Long id) {
         if(repository.existsById(id)) {
+            client.setIdClient(id);
            return repository.save(client);
         }
         return null;
@@ -33,4 +36,9 @@ public class ClinetService implements IClientService {
     public void deleteClient(Long id) {
         repository.deleteById(id);
     }
+    @Override
+    public Client GetClientByID(Long id) {
+        return repository.findById(id).orElse(null);
 }
+}
+
