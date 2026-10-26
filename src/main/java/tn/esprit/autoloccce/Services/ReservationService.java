@@ -34,4 +34,9 @@ public class ReservationService implements IReservationService{
     public void deleteReservation(Long id) {
         repository.deleteById(id);
     }
+
+    @Override
+    public Reservation getReservationById(Long id) {
+        return repository.findById(id).orElse(null);
+    }
 }
