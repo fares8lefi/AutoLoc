@@ -34,4 +34,9 @@ public class PaiementService implements IPaiementService{
     public void deletePaiement(Long id) {
     repository.deleteById(id);
     }
+
+    @Override
+    public Paiement getPaiementById(Long id) {
+        return repository.findById(id).orElse(null);
+    }
 }

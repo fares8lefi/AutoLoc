@@ -9,4 +9,5 @@ public interface IPaiementService {
     List<Paiement> GetAllPaiement();
     Paiement UpdatePaiement(Paiement paiement, Long id) ;
     void deletePaiement(Long id);
+    Paiement getPaiementById(Long id);
 }
