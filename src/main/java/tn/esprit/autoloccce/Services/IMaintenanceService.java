@@ -9,4 +9,5 @@ public interface IMaintenanceService {
     List<Maintenance> GetAllMaintenance();
     Maintenance UpdateMaintenance(Maintenance maintenance, Long id) ;
     void deleteMaintenance(Long id);
+    Maintenance getMaintenanceById(Long id);
 }

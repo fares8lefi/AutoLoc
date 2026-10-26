@@ -33,4 +33,9 @@ public class MaintenanceService implements IMaintenanceService{
     public void deleteMaintenance(Long id) {
         repository.deleteById(id);
     }
+
+    @Override
+    public Maintenance getMaintenanceById(Long id) {
+        return repository.findById(id).orElse(null);
+    }
 }
