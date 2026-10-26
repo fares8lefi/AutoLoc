@@ -9,4 +9,5 @@ public interface IEquipmentService {
     List<Equipement> GetAllEquipement();
     Equipement UpdateEquipement(Equipement equipement, Long id) ;
     void deleteEquipement(Long id);
+    Equipement getEquipementById(Long id);
 }

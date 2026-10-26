@@ -36,4 +36,9 @@ public class EquipmentService implements IEquipmentService{
     public void deleteEquipement(Long id) {
         repository.deleteById(id);
     }
+
+    @Override
+    public Equipement getEquipementById(Long id) {
+        return repository.findById(id).orElse(null);
+    }
 }
