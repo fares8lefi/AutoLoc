@@ -9,6 +9,7 @@ public interface IVehiculeService {
         List<Vehicule> GetAllVehicule();
         Vehicule UpdateVehicule(Vehicule vehicule, Long id) ;
         void deleteVehicule(Long id);
+        Vehicule getVehiculeById(Long id);
     }
 
 

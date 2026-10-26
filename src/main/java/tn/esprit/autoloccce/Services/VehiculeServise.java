@@ -34,4 +34,9 @@ public class VehiculeServise implements IVehiculeService{
     public void deleteVehicule(Long id) {
         repositrory.deleteById(id);
     }
+
+    @Override
+    public Vehicule getVehiculeById(Long id) {
+        return repositrory.findById(id).orElse(null);
+    }
 }
