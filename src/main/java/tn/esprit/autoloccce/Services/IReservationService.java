@@ -10,4 +10,5 @@ public interface IReservationService {
     Reservation UpdateReservation(Reservation reservation, Long id) ;
     void deleteReservation(Long id);
     Reservation getReservationById(Long id);
+    void affecterContratAReservation(Long idContrat, Long idReservation);
 }
