@@ -2,7 +2,9 @@ package tn.esprit.autoloccce.Services;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import tn.esprit.autoloccce.Repositories.ContratRepository;
 import tn.esprit.autoloccce.Repositories.PaiementRepository;
+import tn.esprit.autoloccce.entities.Contrat;
 import tn.esprit.autoloccce.entities.Paiement;
 
 import java.util.List;
@@ -11,6 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 public class PaiementService implements IPaiementService{
     PaiementRepository repository ;
+    ContratRepository contratRepository;
     @Override
     public Paiement addPaiement(Paiement paiement) {
         return repository.save(paiement);
@@ -38,5 +41,17 @@ public class PaiementService implements IPaiementService{
     @Override
     public Paiement getPaiementById(Long id) {
         return repository.findById(id).orElse(null);
+    }
+
+    @Override
+    public void affecterPaiementAContrat(Long idPaiement, Long idContrat){
+        Paiement paiement = repository.findById(idPaiement)
+                .orElseThrow(() -> new RuntimeException("Paiement introuvable"));
+        Contrat contrat = contratRepository.findById(idContrat)
+                .orElseThrow(() -> new RuntimeException("Contrat introuvable"));
+
+        paiement.setContrat(contrat);
+        contrat.getPaiements().add(paiement);
+        repository.save(paiement);
     }
 }
