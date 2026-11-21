@@ -49,4 +49,9 @@ public class VehiculeController {
     public void desaffecterVehiculeDAgence(@PathVariable Long idv){
         vehiculeService.desaffecterVehiculeDAgence(idv);
     }
+
+    @PutMapping("/affecterEquipementAVehicule/{ide}/{idv}")
+    public void affecterEquipementAVehicule(@PathVariable Long ide , @PathVariable Long idv){
+        vehiculeService.affecterEquipementAVehicule(ide,idv);
+    }
 }

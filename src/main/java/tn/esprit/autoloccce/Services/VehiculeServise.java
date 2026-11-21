@@ -5,8 +5,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import tn.esprit.autoloccce.Repositories.AgenceRepository;
+import tn.esprit.autoloccce.Repositories.EquipementRepository;
 import tn.esprit.autoloccce.Repositories.VehiculeRepositrory;
 import tn.esprit.autoloccce.entities.Agence;
+import tn.esprit.autoloccce.entities.Equipement;
 import tn.esprit.autoloccce.entities.Vehicule;
 
 import java.util.List;
@@ -16,6 +18,7 @@ import java.util.List;
 public class VehiculeServise implements IVehiculeService{
     VehiculeRepositrory repositrory ;
     AgenceRepository agenceRepository;
+    EquipementRepository equipementRepository;
     @Override
     public Vehicule addVehicule(Vehicule vehicule) {
         return repositrory.save(vehicule);
@@ -63,6 +66,20 @@ public class VehiculeServise implements IVehiculeService{
         Vehicule vehicule = repositrory.findById(idVehicule)
                 .orElseThrow(() -> new RuntimeException("Vehicule introuvable"));
         vehicule.setAgence(null);
+        repositrory.save(vehicule);
+    }
+
+    @Override
+    public void affecterEquipementAVehicule(Long idEquipement, Long idVehicule){
+        Equipement equipement = equipementRepository.findById(idEquipement)
+                .orElseThrow(() -> new RuntimeException("Equipement introuvable"));
+        Vehicule vehicule = repositrory.findById(idVehicule)
+                .orElseThrow(() -> new RuntimeException("Vehicule introuvable"));
+
+        if(!vehicule.getEquipements().contains(equipement)){
+            vehicule.getEquipements().add(equipement);
+            equipement.getVehicules().add(vehicule);
+        }
         repositrory.save(vehicule);
     }
 }

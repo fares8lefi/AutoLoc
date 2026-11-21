@@ -12,6 +12,7 @@ public interface IVehiculeService {
         Vehicule getVehiculeById(Long id);
         void affecterVehiculeAAgence(Long idVehicule, Long idAgence);
         void desaffecterVehiculeDAgence(Long idVehicule);
+        void affecterEquipementAVehicule(Long idEquipement, Long idVehicule);
     }
 
 
