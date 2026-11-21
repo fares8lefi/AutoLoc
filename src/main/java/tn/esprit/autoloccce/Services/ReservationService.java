@@ -54,4 +54,16 @@ public class ReservationService implements IReservationService{
         reservation.setContrat(contrat);
         contratRepository.save(contrat);
     }
+
+    @Override
+    public void desaffecterContratDeReservation(Long idReservation){
+        Reservation reservation = repository.findById(idReservation)
+                .orElseThrow(() -> new RuntimeException("Reservation introuvable"));
+        Contrat contrat = reservation.getContrat();
+        if(contrat != null){
+            contrat.setReservation(null);
+            reservation.setContrat(null);
+            contratRepository.save(contrat);
+        }
+    }
 }
