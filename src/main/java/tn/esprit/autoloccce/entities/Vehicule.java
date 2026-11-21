@@ -29,12 +29,10 @@ public class Vehicule {
     private String modele ;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private CategorieVehicule categorie ;
     private BigDecimal tarifJournalier;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private statutVehicule status ;
     @ManyToOne
     private Agence agence;
