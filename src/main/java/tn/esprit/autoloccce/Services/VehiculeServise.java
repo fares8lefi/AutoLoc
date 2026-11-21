@@ -82,4 +82,16 @@ public class VehiculeServise implements IVehiculeService{
         }
         repositrory.save(vehicule);
     }
+
+    @Override
+    public void desaffecterEquipementDeVehicule(Long idEquipement, Long idVehicule){
+        Equipement equipement = equipementRepository.findById(idEquipement)
+                .orElseThrow(() -> new RuntimeException("Equipement introuvable"));
+        Vehicule vehicule = repositrory.findById(idVehicule)
+                .orElseThrow(() -> new RuntimeException("Vehicule introuvable"));
+
+        vehicule.getEquipements().remove(equipement);
+        equipement.getVehicules().remove(vehicule);
+        repositrory.save(vehicule);
+    }
 }
