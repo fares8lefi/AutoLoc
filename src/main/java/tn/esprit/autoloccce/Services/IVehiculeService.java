@@ -11,6 +11,7 @@ public interface IVehiculeService {
         void deleteVehicule(Long id);
         Vehicule getVehiculeById(Long id);
         void affecterVehiculeAAgence(Long idVehicule, Long idAgence);
+        void desaffecterVehiculeDAgence(Long idVehicule);
     }
 
 

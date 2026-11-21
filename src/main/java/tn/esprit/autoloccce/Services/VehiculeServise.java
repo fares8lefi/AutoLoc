@@ -57,4 +57,12 @@ public class VehiculeServise implements IVehiculeService{
         agence.getVehicules().add(vehicule);
         repositrory.save(vehicule);
     }
+
+    @Override
+    public void desaffecterVehiculeDAgence(Long idVehicule){
+        Vehicule vehicule = repositrory.findById(idVehicule)
+                .orElseThrow(() -> new RuntimeException("Vehicule introuvable"));
+        vehicule.setAgence(null);
+        repositrory.save(vehicule);
+    }
 }
