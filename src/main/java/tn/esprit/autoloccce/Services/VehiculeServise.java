@@ -1,8 +1,12 @@
 package tn.esprit.autoloccce.Services;
 
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+import tn.esprit.autoloccce.Repositories.AgenceRepository;
 import tn.esprit.autoloccce.Repositories.VehiculeRepositrory;
+import tn.esprit.autoloccce.entities.Agence;
 import tn.esprit.autoloccce.entities.Vehicule;
 
 import java.util.List;
@@ -11,6 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 public class VehiculeServise implements IVehiculeService{
     VehiculeRepositrory repositrory ;
+    AgenceRepository agenceRepository;
     @Override
     public Vehicule addVehicule(Vehicule vehicule) {
         return repositrory.save(vehicule);
@@ -38,5 +43,18 @@ public class VehiculeServise implements IVehiculeService{
     @Override
     public Vehicule getVehiculeById(Long id) {
         return repositrory.findById(id).orElse(null);
+
+    }
+
+    @Override
+    public void affecterVehiculeAAgence(Long idVehicule, Long idAgence){
+        Vehicule vehicule = repositrory.findById(idVehicule)
+                .orElseThrow(() -> new RuntimeException("Vehicule introuvable"));
+        Agence agence = agenceRepository.findById(idAgence)
+                .orElseThrow(() -> new RuntimeException("Agence introuvable"));
+
+        vehicule.setAgence(agence);
+        agence.getVehicules().add(vehicule);
+        repositrory.save(vehicule);
     }
 }
